@@ -67,10 +67,7 @@ class Training:
         rows = 2
         columns = math.ceil(batch_size / rows)
 
-        #m = nn.Threshold(1, 20)
         output = model_ft(images.to(device))
-        #output = m(output)
-        print(output)
         _, y_pred = torch.max(output, 1)
         y_pred = y_pred.cpu().data.numpy()
         for i in range(0, columns*rows):    
