@@ -19,16 +19,17 @@ class Evaluation:
     def evaluate_model(self, y_true, y_pred, pos_label = 0) -> any:
         return {
             'acc': accuracy_score(y_true, y_pred), 
-            'confusion_matrix' : confusion_matrix(y_true, y_pred),
-            'prec' : precision_score(y_true, y_pred, pos_label=pos_label),
-            'recall' : recall_score(y_true, y_pred, pos_label=pos_label),
-            'f1' : f1_score(y_true, y_pred)
+            'confusion_matrix': confusion_matrix(y_true, y_pred),
+            'prec': precision_score(y_true, y_pred, pos_label=pos_label),
+            'recall': recall_score(y_true, y_pred, pos_label=pos_label),
+            'f1': f1_score(y_true, y_pred)
         } 
 
     def predict(self, model, loader, device: str) -> any:
         y_true = []
         y_pred = []
-        outputs = []
+        outputs_0 = []
+        outputs_1 = []
         y_true_output = []
 
         for X, y in loader:
@@ -43,11 +44,12 @@ class Evaluation:
             for y_ in y_pred_.cpu():
                 y_pred.append(y_)
             for y_ in output:
-                outputs.append(y_.detach().numpy()[1])
+                outputs_0.append(y_.detach().numpy()[0])
+                outputs_1.append(y_.detach().numpy()[1])
 
-        output_stacked = np.stack((outputs, y_true_output), axis=1)
+        output_stacked = np.stack((outputs_0, outputs_1, y_true_output), axis=1)
 
-        return y_true, y_pred, output_stacked[np.argsort(output_stacked[:, 0])]
+        return y_true, y_pred, output_stacked[np.argsort(output_stacked[:, 1])]
     
     def calculate_result(self, model_ft, test_loader, model_name, device: str):
         y_true, y_pred, output_stacked = self.predict(model_ft, test_loader, device)
@@ -57,10 +59,10 @@ class Evaluation:
 
         h_list_df = pd.DataFrame(output_stacked)
         os.makedirs('output/result/output_data', exist_ok=True)
-        h_list_df.to_csv(f'output/result/output_data/{model_name}.csv', index=False, sep=';', header=False, decimal=",")
+        h_list_df.to_csv(f'output/result/output_data/{model_name}.csv', index=False, sep=',', header=["outputs_0", "outputs_1", "true_values"], decimal=",")
 
     def show_result(self):
         h_list_df = pd.DataFrame(self.h_list_val)
         os.makedirs('output/result', exist_ok=True)  
-        h_list_df.to_csv('output/result/result.csv', index=False, sep=';') 
+        h_list_df.to_csv('output/result/result.csv', index=False, sep=',', decimal=",")
         h_list_df

@@ -8,6 +8,7 @@ from src.services.pre_loading import PreLoading
 from src.services.neural_network_models import NeuralNetworkModels
 from src.services.training import Training
 from src.services.evaluation import Evaluation
+from src.services.analysis import Analysis
 
 import warnings
 from numpy import random
@@ -55,5 +56,8 @@ for neural_model_name in models:
     training.verify_images(neuralLoader.test_loader.loader, batch_size, model_ft, device.device, label_desc, neural_model_name.name)
     
     evaluation.calculate_result(model_ft, neuralLoader.test_loader.loader, neural_model_name.name, device.device)
+
+    analysis = Analysis()
+    analysis.run(neural_model_name.name)
 
 evaluation.show_result()
