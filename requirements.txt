@@ -7,7 +7,7 @@ filelock==3.8.0
 fonttools==4.34.4
 gdown==4.5.1
 idna==3.3
-joblib==1.1.0
+joblib==1.2.0
 kiwisolver==1.4.4
 matplotlib==3.5.3
 numpy==1.23.1
