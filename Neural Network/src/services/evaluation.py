@@ -16,13 +16,13 @@ class Evaluation:
         self.h_list_val = []
         pass
 
-    def evaluate_model(self, y_true, y_pred, pos_label = 0) -> any:
+    def evaluate_model(self, y_true, y_pred, pos_label = 1) -> any:
         return {
             'acc': accuracy_score(y_true, y_pred), 
             'confusion_matrix': confusion_matrix(y_true, y_pred),
             'prec': precision_score(y_true, y_pred, pos_label=pos_label),
             'recall': recall_score(y_true, y_pred, pos_label=pos_label),
-            'f1': f1_score(y_true, y_pred)
+            'f1': f1_score(y_true, y_pred, pos_label=pos_label)
         } 
 
     def predict(self, model, loader, device: str) -> any:
@@ -59,10 +59,10 @@ class Evaluation:
 
         h_list_df = pd.DataFrame(output_stacked)
         os.makedirs('output/result/output_data', exist_ok=True)
-        h_list_df.to_csv(f'output/result/output_data/{model_name}.csv', index=False, sep=',', header=["outputs_0", "outputs_1", "true_values"], decimal=",")
+        h_list_df.to_csv(f'output/result/output_data/{model_name}.csv', index=False, sep=';', header=["outputs_0", "outputs_1", "true_values"], decimal=",")
 
     def show_result(self):
         h_list_df = pd.DataFrame(self.h_list_val)
         os.makedirs('output/result', exist_ok=True)  
-        h_list_df.to_csv('output/result/result.csv', index=False, sep=',', decimal=",")
+        h_list_df.to_csv('output/result/result.csv', index=False, sep=';', decimal=",")
         h_list_df

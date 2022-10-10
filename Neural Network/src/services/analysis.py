@@ -6,7 +6,7 @@ from sklearn.metrics import precision_recall_fscore_support
 class Analysis:
 
     def run(self, model_name) -> any:
-        df = pd.read_csv(f"output/result/output_data/{model_name}.csv", decimal=",")
+        df = pd.read_csv(f"output/result/output_data/{model_name}.csv", sep=";", decimal=",")
         y = df.true_values.values
         scores = -df.outputs_1.values
         precision, recall, thresholds = metrics.precision_recall_curve(y, scores, pos_label=0)
@@ -32,7 +32,7 @@ class Analysis:
             })
         df_results = pd.DataFrame(results)
         os.makedirs('output/result/output_data/automatic_results', exist_ok=True)
-        df_results.to_csv(f'output/result/output_data/automatic_results/{model_name}.csv', index=False, sep=',', header=True, decimal=",")
+        df_results.to_csv(f'output/result/output_data/automatic_results/{model_name}.csv', index=False, sep=';', header=True, decimal=",")
 
         fpr, tpr, thresholds = metrics.roc_curve(y, scores, pos_label=0)
         roc_auc = metrics.auc(fpr, tpr)
