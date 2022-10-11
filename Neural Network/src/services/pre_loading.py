@@ -6,7 +6,7 @@ from src.model.device_data import DeviceData
 
 class PreLoading:
     def classDistribution(self, train_data) -> any:
-        label_desc = {i : x for i, x in enumerate(list(reversed(train_data.classes)))}
+        label_desc = {i : x for i, x in enumerate(list(train_data.classes))}
         label_desc_inv = {v : k for k, v in label_desc.items()}
         print(label_desc_inv)
         return label_desc
