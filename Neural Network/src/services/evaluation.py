@@ -56,7 +56,7 @@ class Evaluation:
 
         output_stacked = np.stack((outputs_0, outputs_1, y_true_output, class_0, class_1), axis=1)
 
-        return y_true, y_pred, output_stacked[np.argsort(output_stacked[:, 1])]
+        return y_true, y_pred, output_stacked
 
     def calculate_result(self, model_ft, test_loader, model_name, device: str):
         y_true, y_pred, output_stacked = self.predict(model_ft, test_loader, device)
