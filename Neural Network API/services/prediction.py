@@ -5,9 +5,13 @@ import torchvision.transforms as transforms
 from PIL import Image
 import torch
 
+from .model_initialize import ModelInitialize
+
 imagenet_class_index = json.load(open('models/classes.json'))
-model = torch.load('models/MOBILENET_V2.pth')
+ModelInitialize.initialize()
+model = torch.load('models/model.pth')
 model.eval()
+threshold = 0.6460
 
 def transform_image(image_bytes):
     my_transforms = transforms.Compose([
@@ -22,7 +26,8 @@ def transform_image(image_bytes):
 
 def get_prediction(image_bytes):
     tensor = transform_image(image_bytes=image_bytes)
-    outputs = model.forward(tensor)
+    output_with_threshold = (tensor > threshold).float()
+    outputs = model.forward(output_with_threshold)
     _, y_hat = outputs.max(1)
     predicted_idx = str(y_hat.item())
     return imagenet_class_index[predicted_idx]

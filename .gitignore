@@ -130,3 +130,6 @@ dmypy.json
 # Neural network folders
 temp
 output
+
+# Neural network models
+*.pth
