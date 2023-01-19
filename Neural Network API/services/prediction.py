@@ -11,7 +11,7 @@ imagenet_class_index = json.load(open('models/classes.json'))
 ModelInitialize.initialize()
 model = torch.load('models/model.pth')
 model.eval()
-threshold = 0.6460
+threshold = 0.53
 
 def transform_image(image_bytes):
     my_transforms = transforms.Compose([
