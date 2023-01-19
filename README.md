@@ -6,7 +6,7 @@ Este projeto tem como objetivos:
 
 ## Demonstração
 
-![Exemplos de uso da aplicação](exemples.png)
+![Exemplos de uso da aplicação](examples.png)
 
 ## Instalação
 
